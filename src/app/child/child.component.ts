@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ContextDrawerService } from '../context-drawer.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class ChildComponent implements OnInit, OnDestroy {
   private eventListener!: EventListener;
   message = '';
 
-  constructor(private contextDrawerService: ContextDrawerService) {}
+  constructor(private contextDrawerService: ContextDrawerService, private ngZone: NgZone) {}
 
   ngOnDestroy(): void {
     console.log('CHILD ON DESTROY')
@@ -25,12 +25,13 @@ export class ChildComponent implements OnInit, OnDestroy {
 
   addEventListener() {
     this.eventListener = (event: Event) => {
-      const customEvent = event as CustomEvent;
-      console.log('EVENT RECEIVED:', customEvent.detail);
-      this.contextDrawerService.sendMessage('FROM CHILD COMPONENT!');
-      this.message += customEvent.detail.message + '\n';
+      //this.ngZone.run(() => {
+        const customEvent = event as CustomEvent;
+        console.log('EVENT RECEIVED:', customEvent.detail);
+        this.contextDrawerService.sendMessage('FROM CHILD COMPONENT!');
+        this.message += customEvent.detail.message + '\n';
+      //}); //funciona com ou sem ngZone.run()
     };
-
     window.addEventListener('pageHelp', this.eventListener);
   }
   
