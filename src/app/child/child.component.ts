@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ContextDrawerService } from '../context-drawer.service';
 
 @Component({
   standalone: true,
@@ -10,6 +11,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 export class ChildComponent implements OnInit, OnDestroy {
   private eventListener!: EventListener;
   message = '';
+
+  constructor(private contextDrawerService: ContextDrawerService) {}
 
   ngOnDestroy(): void {
     console.log('CHILD ON DESTROY')
@@ -24,7 +27,8 @@ export class ChildComponent implements OnInit, OnDestroy {
     this.eventListener = (event: Event) => {
       const customEvent = event as CustomEvent;
       console.log('EVENT RECEIVED:', customEvent.detail);
-      this.message = customEvent.detail.message;
+      this.contextDrawerService.sendMessage('FROM CHILD COMPONENT!');
+      this.message += customEvent.detail.message + '\n';
     };
 
     window.addEventListener('pageHelp', this.eventListener);
