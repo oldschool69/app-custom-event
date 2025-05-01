@@ -1,6 +1,5 @@
 <h1>Root component</h1>
-<button (click)="onShowHideClick()">Show/Hide component</button>
-@if (showComponent) {
-  <app-parent></app-parent>
-}
-<button (click)="onSendEvent()">Send event</button>
+<button (click)="onSendEvent('pageHelp')">Page Help</button>
+<button (click)="onSendEvent('tableHelp')">Table Help</button>
+<app-drawer />
+

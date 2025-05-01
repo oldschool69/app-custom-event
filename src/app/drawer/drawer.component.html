@@ -1,0 +1,16 @@
+<mat-drawer-container class="example-container">
+    <mat-drawer #drawer mode="side">
+        @switch (eventType()) {
+            @case ('pageHelp') {
+                <p><page-help /></p>
+            }
+            @case ('tableHelp') {
+                <p><table-help /></p>
+            }
+            @default {
+                <p>No page to show</p>
+            }
+        }
+    </mat-drawer>
+    <mat-drawer-content />
+</mat-drawer-container>
